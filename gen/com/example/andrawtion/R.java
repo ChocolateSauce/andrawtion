@@ -29,10 +29,17 @@ public final class R {
         public static final int circle=0x7f020004;
         public static final int ic_launcher=0x7f020005;
         public static final int pic=0x7f020006;
+        public static final int pic_0090=0x7f020007;
+        public static final int pic_0180=0x7f020008;
+        public static final int pic_0270=0x7f020009;
+        public static final int pic_0360=0x7f02000a;
     }
     public static final class id {
-        public static final int action_settings=0x7f080004;
+        public static final int action_settings=0x7f080007;
+        public static final int content_frame=0x7f080005;
+        public static final int drawer_layout=0x7f080004;
         public static final int imageView1=0x7f080000;
+        public static final int left_drawer=0x7f080006;
         public static final int level_ok=0x7f080003;
         public static final int level_seek=0x7f080002;
         public static final int level_txt=0x7f080001;
@@ -40,6 +47,7 @@ public final class R {
     public static final class layout {
         public static final int activity_start=0x7f030000;
         public static final int level_layout=0x7f030001;
+        public static final int navdraw_layout=0x7f030002;
     }
     public static final class menu {
         public static final int main=0x7f070000;
