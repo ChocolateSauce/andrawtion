@@ -1,10 +1,15 @@
 package com.example.andrawtion;
 
+import java.io.File;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.ContextWrapper;
 import android.content.DialogInterface;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -43,7 +48,8 @@ public class StartActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
     	super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_start);
-        picAnimation = drawAnimation();
+//        picAnimation = drawAnimation();
+		picAnimation = drawAnimationfromSD();
         imview = (ImageView) findViewById(R.id.imageView1);
         imview.setImageDrawable(picAnimation);
         picAnimation.stop();
@@ -65,6 +71,30 @@ public class StartActivity extends Activity {
         temp.addFrame(getResources().getDrawable(R.drawable.black), black*tprog);
         temp.addFrame(getResources().getDrawable(R.drawable.pic_0270), 2*tprog);
         temp.addFrame(getResources().getDrawable(R.drawable.black), black*tprog);
+        
+        temp.setOneShot(false);
+        
+        return temp;
+        
+    }
+    
+    private AnimationDrawable drawAnimationfromSD() {
+    	
+    	int tprog = (prog+1)*10;
+    	AnimationDrawable temp = new AnimationDrawable();
+    	
+    	File path = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/animation_images");
+
+    	if(path.exists() && path.isDirectory()) {
+	    	File [] images = path.listFiles();
+            Toast.makeText(StartActivity.this, "SD card images", Toast.LENGTH_SHORT).show();
+	    	for (File file : images) {
+	    		temp.addFrame(Drawable.createFromPath(file.getAbsolutePath()), 2*tprog);
+	    		temp.addFrame(getResources().getDrawable(R.drawable.black), black*tprog);
+			}
+    	} else
+    		temp = drawAnimation();
+
         
         temp.setOneShot(false);
         
@@ -158,7 +188,8 @@ public class StartActivity extends Activity {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				//picAnimation.invalidateSelf();					
-				picAnimation = drawAnimation();
+				//picAnimation = drawAnimation();
+				picAnimation = drawAnimationfromSD();
 				imview.setImageDrawable(picAnimation);
 		        picAnimation.stop();
 		        picAnimation.selectDrawable(0);
