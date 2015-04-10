@@ -24,10 +24,13 @@ import android.widget.Toast;
 public class StartActivity extends Activity {
 
     long mSecondFingerDownTime = 0;
-	int prog = 1;
-    int tprog = (prog+1)*10;
-    int black = 8;
-    int tblack = black*10;
+	
+    int prog = 1;
+    int tprog = prog;			//(prog+1)*10;
+    
+    int black = 7;
+    int tblack = black;			//black*10;
+    		
     AnimationDrawable picAnimation = new AnimationDrawable();
     ImageView imview;
     float x1,x2;
@@ -61,16 +64,15 @@ public class StartActivity extends Activity {
     
     private AnimationDrawable drawAnimation() {
     	
-    	int tprog = (prog+1)*10;
         AnimationDrawable temp = new AnimationDrawable();
         temp.addFrame(getResources().getDrawable(R.drawable.pic_0360), 2*tprog);
-        temp.addFrame(getResources().getDrawable(R.drawable.black), black*tprog);
+        temp.addFrame(getResources().getDrawable(R.drawable.black), tblack*tprog);
         temp.addFrame(getResources().getDrawable(R.drawable.pic_0090), 2*tprog);
-        temp.addFrame(getResources().getDrawable(R.drawable.black), black*tprog);
+        temp.addFrame(getResources().getDrawable(R.drawable.black), tblack*tprog);
         temp.addFrame(getResources().getDrawable(R.drawable.pic_0180), 2*tprog);
-        temp.addFrame(getResources().getDrawable(R.drawable.black), black*tprog);
+        temp.addFrame(getResources().getDrawable(R.drawable.black), tblack*tprog);
         temp.addFrame(getResources().getDrawable(R.drawable.pic_0270), 2*tprog);
-        temp.addFrame(getResources().getDrawable(R.drawable.black), black*tprog);
+        temp.addFrame(getResources().getDrawable(R.drawable.black), tblack*tprog);
         
         temp.setOneShot(false);
         
@@ -80,7 +82,6 @@ public class StartActivity extends Activity {
     
     private AnimationDrawable drawAnimationfromSD() {
     	
-    	int tprog = (prog+1)*10;
     	AnimationDrawable temp = new AnimationDrawable();
     	
     	File path = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), "/animation_images");
@@ -89,8 +90,8 @@ public class StartActivity extends Activity {
 	    	File [] images = path.listFiles();
             Toast.makeText(StartActivity.this, "SD card images", Toast.LENGTH_SHORT).show();
 	    	for (File file : images) {
-	    		temp.addFrame(Drawable.createFromPath(file.getAbsolutePath()), 2*tprog);
-	    		temp.addFrame(getResources().getDrawable(R.drawable.black), black*tprog);
+	    		temp.addFrame(Drawable.createFromPath(file.getAbsolutePath()), tprog);
+	    		temp.addFrame(getResources().getDrawable(R.drawable.blue), tblack);
 			}
     	} else
     		temp = drawAnimation();
@@ -135,12 +136,12 @@ public class StartActivity extends Activity {
 		lin.setOrientation(LinearLayout.VERTICAL);
 		
 		final TextView scaleText = new TextView(this);
-		scaleText.setText("Animation Speed: x" + tprog);
+		scaleText.setText("Animation Speed: " + tprog + " ms");
 		final SeekBar scaleSeek = new SeekBar(this);
 		lin.addView(scaleText);
 		lin.addView(scaleSeek);
 		
-		scaleSeek.setMax(10); 
+		scaleSeek.setMax(100); 
 		
 		scaleSeek.setProgress(prog);  
 		
@@ -149,8 +150,8 @@ public class StartActivity extends Activity {
 			@Override  
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {  
 				prog = progress;
-				tprog = (prog+1)*10;
-				scaleText.setText("Animation Speed: x" + tprog);
+				tprog = prog;			//(prog+1)*10;
+				scaleText.setText("Animation Speed: " + tprog + " ms");
 			}  
 			//methods to implement but not necessary to amend  
 			@Override  
@@ -165,15 +166,15 @@ public class StartActivity extends Activity {
 		lin.addView(blackText);
 		lin.addView(blackSeek);
 
-		blackSeek.setMax(10);  
-		blackSeek.setProgress(black);  
+		blackSeek.setMax(100);  
+		blackSeek.setProgress(tblack);  
 		
 		
 		blackSeek.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {  
 			@Override  
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {  
 				black = progress;
-				tblack = black*10;
+				tblack = black;			//black*10;;
 				blackText.setText("Blackout Duration: " + tblack + "ms");
 			}  
 			//methods to implement but not necessary to amend  
@@ -220,7 +221,7 @@ public class StartActivity extends Activity {
     	}
 
     	if(event.getActionMasked() == MotionEvent.ACTION_POINTER_UP && event.getActionIndex()==1 ){
-    	    if ((System.currentTimeMillis()-mSecondFingerDownTime) >= 300) {
+    	    if ((System.currentTimeMillis()-mSecondFingerDownTime) >= 200) {
     	        buildSettings();
     	    	Toast.makeText(getApplicationContext(), "Two Finger Long Press",Toast.LENGTH_SHORT).show();
     	    }
